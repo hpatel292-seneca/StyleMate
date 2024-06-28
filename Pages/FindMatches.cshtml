@@ -1,0 +1,15 @@
+﻿@page "/findmatches/{id:int}"
+@model StyleMate.Pages.FindMatchesModel
+@{
+}
+
+
+<h2>Find Matches for @Model.SelectedItem.Name</h2>
+
+<h3>Matching Items:</h3>
+<ul>
+    @foreach (var match in Model.MatchingItems)
+    {
+        <li>@match.Name (@match.Type) - @match.Color</li>
+    }
+</ul>

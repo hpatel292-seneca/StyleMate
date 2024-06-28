@@ -1,0 +1,73 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - StyleMate</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/5hb7ie2LloXDQDeW5fXA3xLgH3OFNJ7UthUXP1" crossorigin="anonymous">
+    <link href="~/css/site.css" rel="stylesheet" />
+</head>
+<body>
+    <main role="main" class="container">
+        <div class="hero bg-light p-5 rounded mt-3">
+            <h1>Welcome to StyleMate!</h1>
+            <p class="lead"><b>Find the perfect match for your clothing items effortlessly. Select an item, and we'll suggest the best matches for you.</b></p>
+            <a class="btn btn-primary btn-lg" href="/Create" role="button">Get Started &raquo;</a>
+        </div>
+
+        <h1>Clothing Items</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Color</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Type</td>
+                        <td>@item.Color</td>
+                        <td>
+                            <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <a asp-page="./Create">Add New Item</a>
+
+        <section class="mt-5">
+            <h2>Trending Matches</h2>
+            <div class="row">
+                <!-- Example item -->
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <img src="~/images/brown-tshirt.jpeg" class="card-img-top" alt="Brown T-Shirt">
+                        <div class="card-body">
+                            <h5 class="card-title">Brown T-Shirt</h5>
+                            <p class="card-text">Matched with: Blue Jeans, White Sneakers</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repeat similar blocks for more items -->
+            </div>
+        </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbVqvDo3Ckss++8q3COibFnItu2U6Vz5t2f5E4p7xM1RFtmQ8mdZ0F4pV0QPtfg" crossorigin="anonymous"></script>
+</body>
+</html>
