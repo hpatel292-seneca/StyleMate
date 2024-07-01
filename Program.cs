@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<IClothingService, ClothingService>();
+builder.Services.AddSingleton<IClothingCombinationService, ClothingCombinationService>();
 
 var app = builder.Build();
 
