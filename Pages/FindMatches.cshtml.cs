@@ -33,6 +33,13 @@ namespace StyleMate.Pages
                 {
                     MatchingItems = _clothingCombinationService.GetCombinationsByTop(top: SelectedItem.Color);
                 }
+                else if(SelectedItem.Type == ClothingType.Bottom){
+                    MatchingItems = _clothingCombinationService.GetCombinationsByBottom(bottom: SelectedItem.Color);
+                }
+                else if (SelectedItem.Type == ClothingType.Shoe)
+                {
+                    MatchingItems = _clothingCombinationService.GetCombinationsByShoe(shoe: SelectedItem.Color);
+                }
                 //MatchingItems = _clothingService.FindMatches(SelectedItem);
             }
         }

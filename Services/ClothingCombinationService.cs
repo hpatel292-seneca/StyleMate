@@ -78,11 +78,11 @@ namespace StyleMate.Services
         }
         public List<ClothingCombination> GetCombinationsByBottom(string bottom)
         {
-            return _combinations.Where(c => c.Bottom.Equals(bottom, StringComparison.OrdinalIgnoreCase)).ToList();
+            return _combinations.Where(c => c.Bottom.StartsWith(bottom, StringComparison.OrdinalIgnoreCase)).ToList();
         }
         public List<ClothingCombination> GetCombinationsByShoe(string shoe)
         {
-            return _combinations.Where(c => c.Shoe.Equals(shoe, StringComparison.OrdinalIgnoreCase)).ToList();
+            return _combinations.Where(c => c.Shoe.StartsWith(shoe, StringComparison.OrdinalIgnoreCase)).ToList();
         }
     }
 }
