@@ -3,17 +3,17 @@
 <h1>Create Clothing Item</h1>
 
 <form method="post">
-    <div class="form-group">
-        <label for="Name">Name</label>
-        <input type="text" class="form-control" id="Name" name="Name" />
+    <div class="form-group mb-3">
+        <label for="Name" class="form-label">Name</label>
+        <input type="text" asp-for="clothingItem.Name" class="form-control" id="Name" name="clothingItem.Name" />
     </div>
-    <div class="form-group">
-        <label for="Type">Type</label>
-        <select asp-for="ClothingItem.Type" class="form-control" asp-items="Model.ClothingTypes"></select>
+    <div class="form-group mb-3">
+        <label for="Type" class="form-label">Type</label>
+        <select asp-for="clothingItem.Type" class="form-control" asp-items="Model.ClothingTypes"></select>
     </div>
-    <div class="form-group">
-        <label for="Color">Color</label>
-        <input type="text" class="form-control" id="Color" name="Color" />
+    <div class="form-group mb-3">
+        <label for="Color" class="form-label">Color</label>
+        <input type="text" asp-for="clothingItem.Color" class="form-control" id="Color" name="clothingItem.Color" />
     </div>
-    <button type="submit" class="btn btn-primary">Create</button>
+    <button type="submit" class="btn btn-primary mt-4">Create</button>
 </form>

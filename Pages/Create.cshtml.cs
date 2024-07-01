@@ -16,7 +16,7 @@ namespace StyleMate.Pages
         }
 
         [BindProperty]
-        public ClothingItem ClothingItem { get; set; }
+        public ClothingItem clothingItem { get; set; }
        
         public IEnumerable<SelectListItem> ClothingTypes { get; set; }
         public void OnGet()
@@ -30,8 +30,7 @@ namespace StyleMate.Pages
             {
                 return Page();
             }
-
-            _clothingService.AddItem(ClothingItem);
+            _clothingService.AddItem(clothingItem);
             return RedirectToPage("./Index");
         }
 
