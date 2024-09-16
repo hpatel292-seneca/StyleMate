@@ -7,9 +7,10 @@
 <h1>Edit Clothing Item</h1>
 
 <form method="post">
+    <input asp-for="ClothingItem.Id" type="hidden" />
     <div class="form-group">
         <label for="Name">Name</label>
-        <input type="text" class="form-control" id="Name" name="Name" value="@Model.ClothingItem.Name" />
+        <input asp-for="ClothingItem.Name" type="text" class="form-control" id="Name"/>
     </div>
     <div class="form-group mb-3">
         <label for="Type" class="form-label">Type</label>
@@ -17,7 +18,7 @@
     </div>
     <div class="form-group">
         <label for="Color">Color</label>
-        <input type="text" class="form-control" id="Color" name="Color" value="@Model.ClothingItem.Color" />
+        <input asp-for="ClothingItem.Color" type="text" class="form-control" id="Color"/>
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
