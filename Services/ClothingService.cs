@@ -1,59 +1,69 @@
-﻿using StyleMate.Models;
+﻿using StyleMate.Data;
+using StyleMate.Models;
 
 namespace StyleMate.Services
 {
     public class ClothingService : IClothingService
     {
-        // holds clothing items.
-        private readonly List<ClothingItem> _items;
-
-        public ClothingService()
+        private readonly ApplicationDbContext _context;
+        public ClothingService(ApplicationDbContext context)
         {
-            _items = new List<ClothingItem>
+            _context = context;
+            // Initialize data if no items exist
+            if (!_context.ClothingItem.Any())
             {
-                new ClothingItem { Id = 1, Name = "Brown T-Shirt", Type = ClothingType.Top, Color = "Brown" },
-                new ClothingItem { Id = 2, Name = "Blue Jeans", Type = ClothingType.Bottom, Color = "Blue" }
+                var items = new List<ClothingItem>
+            {
+                new ClothingItem { Name = "Brown T-Shirt", Type = ClothingType.Top, Color = "Brown" },
+                new ClothingItem { Name = "Blue Jeans", Type = ClothingType.Bottom, Color = "Blue" }
             };
+                _context.ClothingItem.AddRange(items);
+                _context.SaveChanges();
+            }
+            
         }
 
         public IEnumerable<ClothingItem> GetAllItems()
         {
-            return _items;
+            return _context.ClothingItem.ToList();
         }
-
         public ClothingItem GetItemById(int id)
         {
-            return _items.FirstOrDefault(item => item.Id == id);
+            return _context.ClothingItem.FirstOrDefault(item => item.Id == id);
         }
         public void AddItem(ClothingItem item)
         {
-            item.Id = _items.Max(i => i.Id) + 1;
-            _items.Add(item);
+            // Add a new clothing item to the database
+            _context.ClothingItem.Add(item);
+            _context.SaveChanges();
         }
 
         public void UpdateItem(ClothingItem item)
         {
-            var existingItem = GetItemById(item.Id);
+            var existingItem=_context.ClothingItem.FirstOrDefault(i=>i.Id == item.Id);
             if (existingItem != null)
             {
                 existingItem.Name = item.Name;
                 existingItem.Type = item.Type;
                 existingItem.Color = item.Color;
+
+                _context.SaveChanges();
             }
         }
 
         public void DeleteItem(int id)
         {
-            var item = GetItemById(id);
+            var item = _context.ClothingItem.FirstOrDefault(i => i.Id == id);
             if (item != null)
             {
-                _items.Remove(item);
+                _context.ClothingItem.Remove(item);
+                _context.SaveChanges();
             }
         }
         public IEnumerable<ClothingItem> FindMatches(ClothingItem item)
         {
             // Simplified matching logic: just find items that are not the same type
-            return _items.Where(i => i.Type != item.Type);
+            return _context.ClothingItem.Where(i => i.Type != item.Type).ToList();
         }
     }
 }
