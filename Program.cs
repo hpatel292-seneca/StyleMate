@@ -1,7 +1,10 @@
+using GroqNet.ChatCompletions;
+using GroqNet;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using StyleMate.Data;
 using StyleMate.Services;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IClothingService, ClothingService>();
 builder.Services.AddScoped<IClothingCombinationService, ClothingCombinationService>();
+builder.Services.AddGroqClient(builder.Configuration.GetConnectionString("GROQ_API_KEY"), GroqModel.LLaMA3_8b);
+builder.Services.AddHttpClient<IGroqService, GroqService>();
+builder.Services.AddScoped<IGroqService, GroqService>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
