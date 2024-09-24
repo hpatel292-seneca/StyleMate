@@ -49,7 +49,7 @@ ApplicationInsights.config.local
 Migrations/
 
 # Include appsettings.json but exclude sensitive environment-specific configs
-!appsettings.json
+appsettings.json
 appsettings.Development.json
 appsettings.Staging.json
 appsettings.Production.json
