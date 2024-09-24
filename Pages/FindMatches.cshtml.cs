@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StyleMate.Models;
 using StyleMate.Services;
+using Markdig;
 using System.Collections.Generic;
 using System.Data;
 
@@ -49,9 +50,9 @@ namespace StyleMate.Pages
                 }
                 //MatchingItems = _clothingService.FindMatches(SelectedItem);
             }
-            
-            LLMresponse = await _groqService.GetChatCompletionAsync(prompt);
-            string abc;
+
+
+            LLMresponse = Markdown.ToHtml(await _groqService.GetChatCompletionAsync(prompt));
         }
     }
 }
