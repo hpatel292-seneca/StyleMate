@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StyleMate.Models;
@@ -5,6 +6,7 @@ using StyleMate.Services;
 
 namespace StyleMate.Pages
 {
+    [Authorize]
     public class DetailsModel : PageModel
     {
         private readonly IClothingService _clothingService;
