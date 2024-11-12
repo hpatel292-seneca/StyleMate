@@ -18,6 +18,11 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     options.SignIn.RequireConfirmedAccount = true;
 })
 .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    // Update the login path to point to your new custom path
+    options.LoginPath = "/Account/Login"; // Adjust to your actual path under Pages, e.g., "/Account/Login"
+});
 
 // Register other services
 builder.Services.AddScoped<IClothingService, ClothingService>();
