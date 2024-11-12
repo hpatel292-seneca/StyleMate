@@ -15,13 +15,14 @@ builder.Services.AddRazorPages();
 // Use only AddDefaultIdentity to configure Identity services
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
-    options.SignIn.RequireConfirmedAccount = true;
+    options.SignIn.RequireConfirmedAccount = false;
 })
 .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.ConfigureApplicationCookie(options =>
 {
     // Update the login path to point to your new custom path
-    options.LoginPath = "/Account/Login"; // Adjust to your actual path under Pages, e.g., "/Account/Login"
+    options.LoginPath = "/Account/Login";
+    options.LogoutPath = "/Account/Logout";
 });
 
 // Register other services
