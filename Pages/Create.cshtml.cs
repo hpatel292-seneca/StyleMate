@@ -7,6 +7,7 @@ using StyleMate.Services;
 
 namespace StyleMate.Pages
 {
+    [Authorize]
     public class CreateModel : PageModel
     {
         private readonly IClothingService _clothingService;

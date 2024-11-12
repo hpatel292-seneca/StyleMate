@@ -5,9 +5,11 @@ using StyleMate.Services;
 using Markdig;
 using System.Collections.Generic;
 using System.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StyleMate.Pages
 {
+    [Authorize]
     public class FindMatchesModel : PageModel
     {
         private readonly IClothingService _clothingService;
