@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StyleMate.Models
 {
@@ -12,6 +15,13 @@ namespace StyleMate.Models
         [Required]
         public string? Color { get; set; }
         // Add more properties as needed
+
+        // Foreign key for the user who owns this item
+        [BindNever]
+        public string? UserId { get; set; }
+
+        [ForeignKey("UserId")]
+        public IdentityUser? User { get; set; } // You can use ApplicationUser if you have a custom user model
     }
 
 }
