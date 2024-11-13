@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StyleMate.Models;
 using StyleMate.Services;
+using System.Security.Claims;
 
 namespace StyleMate.Pages
 {
@@ -20,10 +21,15 @@ namespace StyleMate.Pages
 
         public IActionResult OnGet(int id)
         {
-            ClothingItem = _clothingService.GetItemById(id);
+            // Get the current user's ID
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Retrieve the item for the current user
+            ClothingItem = _clothingService.GetItemById(id, userId);
 
             if (ClothingItem == null)
             {
+                // Redirect to Index if the item doesn't exist or doesn't belong to the user
                 return RedirectToPage("./Index");
             }
 

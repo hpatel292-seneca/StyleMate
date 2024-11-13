@@ -6,6 +6,7 @@ using Markdig;
 using System.Collections.Generic;
 using System.Data;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace StyleMate.Pages
 {
@@ -32,7 +33,9 @@ namespace StyleMate.Pages
 
         public async Task OnGet()
         {
-            SelectedItem = _clothingService.GetItemById(Id);
+            // Get the current user's ID
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            SelectedItem = _clothingService.GetItemById(Id, userId);
             string prompt = "";
             if (SelectedItem != null)
             {

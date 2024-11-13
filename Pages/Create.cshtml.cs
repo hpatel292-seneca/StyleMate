@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using StyleMate.Models;
 using StyleMate.Services;
+using System.Security.Claims;
 
 namespace StyleMate.Pages
 {
@@ -26,13 +27,16 @@ namespace StyleMate.Pages
             ClothingTypes = GetClothingTypes();
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
+
             if (!ModelState.IsValid)
             {
                 return Page();
             }
-            _clothingService.AddItem(clothingItem);
+            // Get the current user's ID
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await _clothingService.AddItemAsync(clothingItem, User);
             return RedirectToPage("./Index");
         }
 

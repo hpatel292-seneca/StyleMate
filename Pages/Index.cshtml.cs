@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StyleMate.Models;
 using StyleMate.Services;
+using System.Security.Claims;
 
 namespace StyleMate.Pages
 {
@@ -19,7 +20,10 @@ namespace StyleMate.Pages
 
         public void OnGet()
         {
-            Items = _clothingService.GetAllItems();
+            // Retrieve the user ID of the currently logged-in user
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            Items = _clothingService.GetAllItems(userId);
         }
     }
 }

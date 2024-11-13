@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using StyleMate.Models;
 using StyleMate.Services;
+using System.Security.Claims;
 
 namespace StyleMate.Pages
 {
@@ -23,8 +24,12 @@ namespace StyleMate.Pages
 
         public IActionResult OnGet(int id)
         {
+            // Get the current user's ID
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Retrieve the item for the current user
+            ClothingItem = _clothingService.GetItemById(id, userId);
             ClothingTypes = GetClothingTypes();
-            ClothingItem = _clothingService.GetItemById(id);
 
             if (ClothingItem == null)
             {
@@ -34,14 +39,25 @@ namespace StyleMate.Pages
             return Page();
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _clothingService.UpdateItem(ClothingItem);
+            // Check that the item belongs to the current user before updating
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var existingItem = _clothingService.GetItemById(ClothingItem.Id, userId);
+
+            if (existingItem == null)
+            {
+                // Redirect to Index if the item doesn't exist or doesn't belong to the user
+                return RedirectToPage("./Index");
+            }
+
+            // Update the item
+            await _clothingService.UpdateItemAsync(ClothingItem, User);
             return RedirectToPage("./Index");
         }
         private IEnumerable<SelectListItem> GetClothingTypes()
