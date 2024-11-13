@@ -1,46 +1,46 @@
-﻿using StyleMate.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using StyleMate.Data;
 using StyleMate.Models;
+using System.Security.Claims;
 
 namespace StyleMate.Services
 {
     public class ClothingService : IClothingService
     {
         private readonly ApplicationDbContext _context;
-        public ClothingService(ApplicationDbContext context)
+        private readonly UserManager<IdentityUser> _userManager;
+        public ClothingService(ApplicationDbContext context, UserManager<IdentityUser> user)
         {
             _context = context;
-            // Initialize data if no items exist
-            if (!_context.ClothingItem.Any())
-            {
-                var items = new List<ClothingItem>
-            {
-                new ClothingItem { Name = "Brown T-Shirt", Type = ClothingType.Top, Color = "Brown" },
-                new ClothingItem { Name = "Blue Jeans", Type = ClothingType.Bottom, Color = "Blue" }
-            };
-                _context.ClothingItem.AddRange(items);
-                _context.SaveChanges();
-            }
-            
+            _userManager = user;
         }
 
-        public IEnumerable<ClothingItem> GetAllItems()
+        public IEnumerable<ClothingItem> GetAllItems(string userId)
         {
-            return _context.ClothingItem.ToList();
+            // Retrieve only items belonging to the current user
+            return _context.ClothingItem.Where(item => item.UserId == userId).ToList();
         }
-        public ClothingItem GetItemById(int id)
+        public ClothingItem GetItemById(int id, string userId)
         {
-            return _context.ClothingItem.FirstOrDefault(item => item.Id == id);
+            return _context.ClothingItem.FirstOrDefault(item => item.Id == id && item.UserId==userId);
         }
-        public void AddItem(ClothingItem item)
+        public async Task AddItemAsync(ClothingItem item, ClaimsPrincipal userPrincipal)
         {
-            // Add a new clothing item to the database
+            // Get the currently logged-in user
+            var user = await _userManager.GetUserAsync(userPrincipal);
+            if (user == null) return;
+
+            // Set the item's UserId to the current user's ID
+            item.UserId = user.Id;
+
             _context.ClothingItem.Add(item);
             _context.SaveChanges();
         }
 
-        public void UpdateItem(ClothingItem item)
+        public async Task UpdateItemAsync(ClothingItem item, ClaimsPrincipal userPrincipal)
         {
-            var existingItem=_context.ClothingItem.FirstOrDefault(i=>i.Id == item.Id);
+            var user = await _userManager.GetUserAsync(userPrincipal);
+            var existingItem = _context.ClothingItem.FirstOrDefault(i => i.Id == item.Id && i.UserId == user.Id);
             if (existingItem != null)
             {
                 existingItem.Name = item.Name;
@@ -51,9 +51,10 @@ namespace StyleMate.Services
             }
         }
 
-        public void DeleteItem(int id)
+        public async Task DeleteItemAsync(int id, ClaimsPrincipal userPrincipal)
         {
-            var item = _context.ClothingItem.FirstOrDefault(i => i.Id == id);
+            var user = await _userManager.GetUserAsync(userPrincipal);
+            var item = _context.ClothingItem.FirstOrDefault(i => i.Id == id && i.UserId == user.Id);
             if (item != null)
             {
                 _context.ClothingItem.Remove(item);
