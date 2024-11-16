@@ -16,12 +16,14 @@ namespace StyleMate.Pages
         private readonly IClothingService _clothingService;
         private readonly IClothingCombinationService _clothingCombinationService;
         private readonly IGroqService _groqService;
+        private readonly IWeatherService _weatherService;
 
-        public FindMatchesModel(IGroqService groqService, IClothingService clothingService, IClothingCombinationService clothingCombinationService)
+        public FindMatchesModel(IGroqService groqService, IClothingService clothingService, IClothingCombinationService clothingCombinationService, IWeatherService weatherService)
         {
             _groqService = groqService;
             _clothingService = clothingService;
             _clothingCombinationService = clothingCombinationService;
+            _weatherService = weatherService;
         }
 
         [BindProperty(SupportsGet = true)]
@@ -54,6 +56,23 @@ namespace StyleMate.Pages
                     MatchingItems = _clothingCombinationService.GetCombinationsByShoe(shoe: SelectedItem.Color);
                 }
                 //MatchingItems = _clothingService.FindMatches(SelectedItem);
+                // Fetch weather details for a default or user-specified city
+                string city = "Toronto"; // You can replace this with a dynamic input if needed
+                var weather = await _weatherService.GetWeatherAsync(city);
+                string WeatherDetails;
+
+                if (weather != null)
+                {
+                    // Prepare weather details string for the prompt
+                    WeatherDetails = $"The current weather in {city} is {weather.Main.Temp}°C with {weather.Weather.First().Description}.";
+                }
+                else
+                {
+                    WeatherDetails = "Unable to fetch weather details at this time.";
+                }
+
+                // Append weather details to the prompt
+                prompt += $" Consider the following weather context: {WeatherDetails}";
             }
 
 
