@@ -27,6 +27,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 // Register other services
 builder.Services.AddScoped<IClothingService, ClothingService>();
+builder.Services.AddHttpClient<IWeatherService, WeatherService>();
 builder.Services.AddScoped<IClothingCombinationService, ClothingCombinationService>();
 builder.Services.AddGroqClient(builder.Configuration.GetConnectionString("GROQ_API_KEY"), GroqModel.LLaMA3_8b);
 builder.Services.AddHttpClient<IGroqService, GroqService>();
