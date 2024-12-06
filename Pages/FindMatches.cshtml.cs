@@ -17,6 +17,8 @@ namespace StyleMate.Pages
         private readonly IClothingCombinationService _clothingCombinationService;
         private readonly IGroqService _groqService;
         private readonly IWeatherService _weatherService;
+        public string city;
+        public string WeatherDetails;
 
         public FindMatchesModel(IGroqService groqService, IClothingService clothingService, IClothingCombinationService clothingCombinationService, IWeatherService weatherService)
         {
@@ -28,7 +30,6 @@ namespace StyleMate.Pages
 
         [BindProperty(SupportsGet = true)]
         public int Id { get; set; }
-
         public ClothingItem SelectedItem { get; set; }
         public IEnumerable<ClothingCombination> MatchingItems { get; set; }
         public string LLMresponse { get; set; }
@@ -57,9 +58,8 @@ namespace StyleMate.Pages
                 }
                 //MatchingItems = _clothingService.FindMatches(SelectedItem);
                 // Fetch weather details for a default or user-specified city
-                string city = "Toronto"; // You can replace this with a dynamic input if needed
+                city = "Toronto"; // You can replace this with a dynamic input if needed
                 var weather = await _weatherService.GetWeatherAsync(city);
-                string WeatherDetails;
 
                 if (weather != null)
                 {
