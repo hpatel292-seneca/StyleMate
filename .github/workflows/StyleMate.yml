@@ -46,6 +46,3 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.StyleMate_A65D }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-        env: |
-            ConnectionStrings__DefaultConnection=${{ secrets.DATABASE_CONNECTION_STRING }} | 
-            ConnectionStrings__GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}
