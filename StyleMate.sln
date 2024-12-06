@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StyleMate", "StyleMate.csproj", "{1EFB1573-B102-4DF9-876D-8649424AFDCA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleMate.Tests", "..\StyleMate.Tests\StyleMate.Tests.csproj", "{94AB670B-CB76-441E-95F8-384D9BB827CB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StyleMate", "StyleMate", "{240CA2D5-EEDA-4513-8208-3917716683BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,13 +17,12 @@ Global
 		{1EFB1573-B102-4DF9-876D-8649424AFDCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EFB1573-B102-4DF9-876D-8649424AFDCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EFB1573-B102-4DF9-876D-8649424AFDCA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{94AB670B-CB76-441E-95F8-384D9BB827CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{94AB670B-CB76-441E-95F8-384D9BB827CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{94AB670B-CB76-441E-95F8-384D9BB827CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{94AB670B-CB76-441E-95F8-384D9BB827CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1EFB1573-B102-4DF9-876D-8649424AFDCA} = {240CA2D5-EEDA-4513-8208-3917716683BF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA030E87-B63D-4AD6-86FE-D3233FEA19A7}
