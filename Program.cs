@@ -33,6 +33,8 @@ builder.Services.AddGroqClient(builder.Configuration.GetConnectionString("GROQ_A
 builder.Services.AddHttpClient<IGroqService, GroqService>();
 builder.Services.AddScoped<IGroqService, GroqService>();
 
+builder.Configuration.AddEnvironmentVariables();
+
 // Configure DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

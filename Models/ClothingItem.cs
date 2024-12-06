@@ -21,7 +21,7 @@ namespace StyleMate.Models
         public string? UserId { get; set; }
 
         [ForeignKey("UserId")]
-        public IdentityUser? User { get; set; } // You can use ApplicationUser if you have a custom user model
+        public IdentityUser? User { get; set; }
     }
 
 }
