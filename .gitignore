@@ -48,10 +48,8 @@ ApplicationInsights.config.local
 # Entity Framework
 Migrations/
 
-# Ignore appsettings.json files
 appsettings.json
 appsettings.*.json
-
 
 # Azure
 azure-pipelines.yml
