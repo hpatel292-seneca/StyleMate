@@ -1,0 +1,33 @@
+﻿@page "/findmatches/{id:int}"
+@model StyleMate.Pages.FindMatchesModel
+@{
+}
+
+
+<h2>Find Matches for @Model.SelectedItem.Name</h2>
+
+<h3>Matching Items:</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Top</th>
+            <th>Bottom</th>
+            <th>Shoe</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var combination in Model.MatchingItems)
+        {
+            <tr>
+                <td>@combination.Top</td>
+                <td>@combination.Bottom</td>
+                <td>@combination.Shoe</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Response from AI</h3>
+<div>
+@Html.Raw(@Model.LLMresponse)
+</div>
