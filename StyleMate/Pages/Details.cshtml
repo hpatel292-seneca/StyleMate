@@ -1,0 +1,30 @@
+﻿@page
+@model StyleMate.Pages.DetailsModel
+@{
+}
+
+<h1>Clothing Item Details</h1>
+
+<div>
+	<h4>@Model.ClothingItem.Name</h4>
+	<hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Type
+        </dt>
+        <dd class="col-sm-10">
+            @Model.ClothingItem.Type
+        </dd>
+        <dt class="col-sm-2">
+            Color
+        </dt>
+        <dd class="col-sm-10">
+            @Model.ClothingItem.Color
+        </dd>
+    </dl>
+</div>
+<div>
+    <a href="/findmatches/@Model.ClothingItem.Id">Find Matches</a> |
+    <a asp-page="./Edit" asp-route-id="@Model.ClothingItem.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
