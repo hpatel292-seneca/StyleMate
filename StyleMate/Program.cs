@@ -35,7 +35,13 @@ builder.Services.AddHttpClient<IGroqService, GroqService>();
 
 // Configure DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), sqlOptions =>
+    {
+        sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5, // Number of retries
+            maxRetryDelay: TimeSpan.FromSeconds(10), // Delay between retries
+            errorNumbersToAdd: null); // Additional error codes to retry
+    }));
 
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
