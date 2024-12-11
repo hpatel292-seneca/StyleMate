@@ -31,19 +31,22 @@ builder.Services.AddHttpClient<IWeatherService, WeatherService>();
 builder.Services.AddScoped<IClothingCombinationService, ClothingCombinationService>();
 builder.Services.AddGroqClient(builder.Configuration.GetConnectionString("GROQ_API_KEY"), GroqModel.LLaMA3_8b);
 builder.Services.AddHttpClient<IGroqService, GroqService>();
-builder.Services.AddScoped<IGroqService, GroqService>();
+//builder.Services.AddScoped<IGroqService, GroqService>();
 
 // Configure DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
+
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    dbContext.Database.Migrate();
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+//    dbContext.Database.Migrate();
+//}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
