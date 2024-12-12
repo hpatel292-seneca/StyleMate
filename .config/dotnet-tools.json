@@ -8,6 +8,13 @@
         "dotnet-ef"
       ],
       "rollForward": false
+    },
+    "microsoft.playwright.cli": {
+      "version": "1.2.3",
+      "commands": [
+        "playwright"
+      ],
+      "rollForward": false
     }
   }
 }

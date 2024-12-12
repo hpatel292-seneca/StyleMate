@@ -1,8 +1,10 @@
 name: Build and deploy .NET Core application to Web App StyleMate
 on:
-  push:
-    branches:
-    - main
+  workflow_run:
+    workflows:
+      - Build and deploy ASP.Net Core app to Azure Web App - StyleMate-Staging
+    types:
+      - completed
 env:
   AZURE_WEBAPP_NAME: StyleMate
   AZURE_WEBAPP_PACKAGE_PATH: .\published
@@ -11,6 +13,7 @@ env:
   WORKING_DIRECTORY: .
 jobs:
   build:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4
@@ -22,6 +25,8 @@ jobs:
       run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
     - name: Build
       run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
+    - name: Install Playwright Browsers
+      run: npx playwright install
     - name: Test
       run: dotnet test "${{ env.WORKING_DIRECTORY }}" --no-build
     - name: Publish

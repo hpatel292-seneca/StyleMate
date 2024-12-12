@@ -53,3 +53,6 @@ appsettings.*.json
 
 # Azure
 azure-pipelines.yml
+
+# Test results
+TestResults/
