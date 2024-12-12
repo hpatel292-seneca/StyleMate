@@ -1,21 +1,17 @@
-name: Build and deploy .NET Core application
-
+name: Build and deploy .NET Core application to Web App StyleMate
 on:
   push:
     branches:
-      - main
-
+    - main
 env:
+  AZURE_WEBAPP_NAME: StyleMate
+  AZURE_WEBAPP_PACKAGE_PATH: .\published
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 8.0.x
-
+  WORKING_DIRECTORY: .
 jobs:
-  staging:
+  build:
     runs-on: windows-latest
-    env:
-      AZURE_WEBAPP_NAME: StyleMate-Staging
-      AZURE_WEBAPP_PACKAGE_PATH: StyleMate\published
-      WORKING_DIRECTORY: StyleMate
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET SDK
@@ -30,35 +26,21 @@ jobs:
       run: dotnet test "${{ env.WORKING_DIRECTORY }}" --no-build
     - name: Publish
       run: dotnet publish "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --output "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
-    - name: Deploy to Azure WebApp (Staging)
-      uses: azure/webapps-deploy@v2
+    - name: Publish Artifacts
+      uses: actions/upload-artifact@v3
       with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.StyleMate_Staging_41A4 }}
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-
-  production:
+        name: webapp
+        path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+  deploy:
     runs-on: windows-latest
-    needs: staging
-    env:
-      AZURE_WEBAPP_NAME: StyleMate
-      AZURE_WEBAPP_PACKAGE_PATH: .\published
-      WORKING_DIRECTORY: .
+    needs: build
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v3
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v3
       with:
-        dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
-    - name: Restore
-      run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
-    - name: Build
-      run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
-    - name: Test
-      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --no-build
-    - name: Publish
-      run: dotnet publish "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --output "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
-    - name: Deploy to Azure WebApp (Production)
+        name: webapp
+        path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+    - name: Deploy to Azure WebApp
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
