@@ -2,6 +2,8 @@
 
 StyleMate is a web application that helps users manage their wardrobe and find matching clothing items. Users can securely add, view, edit, and delete their clothing items. The application also suggests matching clothing items based on a selected piece of clothing. Additionally, StyleMate leverages GROQ LLM to generate intelligent responses and suggestions and integrates real-time weather insights to personalize recommendations based on the current conditions.
 
+Product Demo: https://www.youtube.com/watch?v=7gpc8KWD5GI
+
 ## Features
 
 - **User Authentication and Authorization**:
